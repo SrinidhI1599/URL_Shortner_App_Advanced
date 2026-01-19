@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome to Your Dashboard</h2>
+    <form method="POST" action="{{ url_for('shortener') }}">
+        <label>Enter URL to shorten:</label>
+        <input type="text" name="original_url" required>
+        <button type="submit">Shorten</button>
+    </form>
+
+    <h3>Your Shortened URLs:</h3>
+    <ul>
+        {% for url in urls %}
+            <li>
+                Original: <a href="{{ url.original_url }}" target="_blank">{{ url.original_url }}</a><br>
+                Short: <a href="{{ url_for('redirect_url', short_url=url.short_url) }}" target="_blank">
+                    {{ request.host_url }}{{ url.short_url }}
+                </a>
+            </li>
+        {% else %}
+            <li>No URLs yet.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+</body>
+</html>
